@@ -127,6 +127,19 @@ public class IPLAnalyser {
 		this.sortForBowling(csvWktsList, iplCSVComparator);
 		String sorted = new Gson().toJson(csvWktsList);
 		return sorted;
+		
+	}
+	
+	/**
+	 * Usecase9 :Sorting by Bowling Economy
+	 * 
+	 * @return
+	 */
+	public String getSortedOnBowlingEconomy() {
+		Comparator<CSVWickets> iplCSVComparator = Comparator.comparing(entry -> entry.economy);
+		this.sort(csvWktsList, iplCSVComparator.reversed());
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
 	}
 	
 	private void sortForBowling(List<CSVWickets> csvList, Comparator<CSVWickets> iplCSVComparator) {
