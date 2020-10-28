@@ -66,6 +66,30 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	/**
+	 * Usecase4 : Find Best strike rate with Fours and Sixes
+	 * 
+	 * @return
+	 */
+	public String getSortedDataOnStrikeRateOnSixAndFour() {
+		double max = 0;
+		double temp = 0;
+		String playerName = "";
+		double maxSR = 0;
+		double tempSR = 0;
+		for (int i = 0; i < csvRunsList.size(); i++) {
+			temp = (csvRunsList.get(i).noOfFours + csvRunsList.get(i).noOfSixes);
+			tempSR = temp / csvRunsList.get(i).bF;
+			if (temp > max && tempSR > maxSR) {
+				max = temp;
+				maxSR = tempSR;
+				playerName = csvRunsList.get(i).playerName;
+			}
+		}
+		System.out.println(playerName);
+		return playerName;
+	}
 
 
 	private <E> void sort(List<E> csvList, Comparator<E> iplCSVComparator) {
