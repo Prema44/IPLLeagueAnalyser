@@ -53,6 +53,20 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	/**
+	 * Usecase3 : maximum fours and sixes hitters
+	 * 
+	 * @return
+	 */
+	public String getSortedDataOnNoOfFoursAndSixes() {
+		Comparator<CSVRuns> iplCSVComparator = Comparator
+				.comparing(entry -> (entry.noOfFours * 4) + (entry.noOfSixes * 6));
+		this.sort(csvRunsList, iplCSVComparator);
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+
 
 	private <E> void sort(List<E> csvList, Comparator<E> iplCSVComparator) {
 		for (int i = 0; i < csvList.size(); i++) {
