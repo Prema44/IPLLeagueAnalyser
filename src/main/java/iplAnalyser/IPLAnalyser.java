@@ -97,6 +97,18 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	/**
+	 * Usecase6 : Player with max runs and best average 
+	 * 
+	 * @return
+	 */
+	public String getSortedOnMaxRunsAndStrikeRate() {
+		Comparator<CSVRuns> iplCSVComparator = Comparator.comparing(entry -> entry.runs);
+		this.sort(csvRunsList, iplCSVComparator.thenComparing(entry -> entry.avg));
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
 
 
 	private <E> void sort(List<E> csvList, Comparator<E> iplCSVComparator) {
