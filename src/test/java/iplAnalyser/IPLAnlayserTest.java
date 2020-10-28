@@ -72,4 +72,12 @@ public class IPLAnlayserTest {
 		String name = iPLAnalyser.getSortedDataOnStrikeRateOnSixAndFour();
 		assertEquals("Andre Russell", name);
 	}
+	
+	@Test
+	public void givenStatisticsOfRuns_WhenSortedOnAverageAndStrikeRate_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		String sortedCSVData = iPLAnalyser.getSortedOnAverageAndStrikeRate();
+		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+		assertEquals("MS Dhoni", iplCSV[0].playerName);
+	}
 }

@@ -90,6 +90,13 @@ public class IPLAnalyser {
 		System.out.println(playerName);
 		return playerName;
 	}
+	
+	public String getSortedOnAverageAndStrikeRate() {
+		Comparator<CSVRuns> iplCSVComparator = Comparator.comparing(entry -> entry.avg);
+		this.sort(csvRunsList, iplCSVComparator.thenComparing(entry -> entry.strikeRate));
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
 
 
 	private <E> void sort(List<E> csvList, Comparator<E> iplCSVComparator) {
