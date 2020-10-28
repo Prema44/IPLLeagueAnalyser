@@ -88,4 +88,20 @@ public class IPLAnlayserTest {
 		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
 		assertEquals("David Warner ", iplCSV[0].playerName);
 	}
+	
+	@Test
+	public void givenBowlingStatistics_WhenSortedOnBowlingAvg_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
+		String sortedCSVData = iPLAnalyser.getSortedOnBowlingAvg();
+		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+		assertEquals("Anukul Roy", iplCSV[0].playerName);
+	}
+	
+	@Test
+	public void givenWBowlingStatistics_WhenSortedOnBowlingStrikeRate_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
+		String sortedCSVData = iPLAnalyser.getSortedOnBowlingStrikeRate();
+		CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+		assertEquals("Alzarri Joseph", iplCSV[0].playerName);
+	}
 }
