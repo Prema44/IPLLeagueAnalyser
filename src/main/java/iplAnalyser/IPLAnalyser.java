@@ -41,6 +41,18 @@ public class IPLAnalyser {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	/**
+	 * Usecase2 : Determine top striking rate
+	 * 
+	 * @return
+	 */
+	public String getSRWiseSortedData() {
+		Comparator<CSVRuns> iplCSVComparator = Comparator.comparing(entry -> entry.strikeRate);
+		this.sort(csvRunsList, iplCSVComparator);
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
 
 	private <E> void sort(List<E> csvList, Comparator<E> iplCSVComparator) {
 		for (int i = 0; i < csvList.size(); i++) {

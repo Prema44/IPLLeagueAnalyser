@@ -49,4 +49,12 @@ public class IPLAnlayserTest {
 		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
 		assertEquals(83.2, iplCSV[0].avg, 0.0);
 	}
+	
+	@Test
+	public void givenStatisticsofRuns_WhenSortedOnStrikeRate_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		String sortedCSVData = iPLAnalyser.getSRWiseSortedData();
+		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+		assertEquals(333.33f, iplCSV[0].strikeRate, 0.0);
+	}
 }
