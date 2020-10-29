@@ -119,4 +119,12 @@ public class IPLAnlayserTest {
 		String[] sortedCSVData = iPLAnalyser.getSortedOnStrikeRateAnd4wOr5w();
 		assertEquals("Alzarri Joseph", sortedCSVData[0]);
 	}
+	
+	@Test
+	public void givenWktsData_WhenSortedOnBowlingAvgAndStrikeRate_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
+		String sortedCSVData = iPLAnalyser.getSortedOnBowlingAvgAndStrikeRate();
+		CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+		assertEquals("Anukul Roy", iplCSV[0].playerName);
+	}
 }

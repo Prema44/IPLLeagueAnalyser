@@ -167,6 +167,19 @@ public class IPLAnalyser {
 		return csvMap.values().toArray(new String[0]);
 	}
 	
+	/**
+	 * Usecase11 : Bowler with great averages and best striking rate
+	 * 
+	 * @return
+	 */
+	public String getSortedOnBowlingAvgAndStrikeRate() {
+		Comparator<CSVWickets> iplCSVComparator = Comparator.comparing(entry -> entry.avg);
+		this.sortForBowling(csvWktsList, iplCSVComparator.thenComparing(entry -> entry.strikeRate));
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
+	}
+
+	
 	private void sortForBowling(List<CSVWickets> csvList, Comparator<CSVWickets> iplCSVComparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {
