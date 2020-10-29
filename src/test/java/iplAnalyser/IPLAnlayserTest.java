@@ -129,7 +129,7 @@ public class IPLAnlayserTest {
 	}
 	
 	@Test
-	public void BowlingStatistics_WhenSortedOnMaxWicketsAndBowlingAvg_ShouldReturnTrue() throws IOException, CSVBuilderException, IPLStatisticsException {
+	public void givenBowlingStatistics_WhenSortedOnMaxWicketsAndBowlingAvg_ShouldReturnTrue() throws IOException, CSVBuilderException, IPLStatisticsException {
 		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
 		String sortedCSVData = iPLAnalyser.getSortedJsonMaxWicketsWithBestBowlingAvg();
 		CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
@@ -137,7 +137,7 @@ public class IPLAnlayserTest {
 	}
 	
 	@Test
-	public void BowlingStatistics_WhenSortedOnBattingAndBowlingAvg_ShouldReturnTrue() throws IOException, CSVBuilderException, IPLStatisticsException {
+	public void givenBowlingStatistics_WhenSortedOnBattingAndBowlingAvg_ShouldReturnTrue() throws IOException, CSVBuilderException, IPLStatisticsException {
 		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
 		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
 		List<String> sortedCSVData = iPLAnalyser.getSortedOnBestBattingAndBowlingAverage();
@@ -146,12 +146,19 @@ public class IPLAnlayserTest {
 	}	
 	
 	@Test
-	public void givenWktsData_WhenSortedOnMaxRunsAndWkts_ShouldReturnTrue()
+	public void givenBowlingStatistics_WhenSortedOnMaxRunsAndWkts_ShouldReturnTrue()
 			throws IOException, CSVBuilderException, IPLStatisticsException {
 		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
 		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
 		List<String> sortedCSVData = iPLAnalyser.getSortedformaxRunsAndWickets();
 		assertEquals("Andre Russell", sortedCSVData.get(0));
 	}
-
+	
+	@Test
+	public void givenBowlingStatistics_WhenSortedOnMaxHundredsAndBattingAverage_ShouldReturnTrue() throws IOException, CSVBuilderException, IPLStatisticsException {
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		List<CSVRuns> sortedCSVData = iPLAnalyser.getSortedOnMaxHundredsAndBattingAverage();
+		assertEquals("David Warner ", sortedCSVData.get(0).playerName);
+		assertEquals("Jonny Bairstow", sortedCSVData.get(1).playerName);
+	}
 }
