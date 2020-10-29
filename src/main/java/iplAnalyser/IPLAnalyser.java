@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
+import java.util.stream.Collectors;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import census.CSVBuilderException;
 import census.CSVBuilderFactory;
 import census.ICSVBuilder;
@@ -19,19 +21,32 @@ public class IPLAnalyser {
 	List<CSVRuns> csvRunsList = null;
 	List<CSVWickets> csvWktsList = null;
 
-	public int loadDataOfRuns(String CSVFile) throws IOException, CSVBuilderException {
-		Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
-		ICSVBuilder<CSVRuns> csvBuilder = CSVBuilderFactory.createCSVBuilder();
-		csvRunsList = csvBuilder.getCSVFileList(reader, CSVRuns.class);
-		return csvRunsList.size();
+	public int loadDataOfRuns(String CSVFile) throws IPLStatisticsException {
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
+			ICSVBuilder<CSVRuns> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			csvRunsList = csvBuilder.getCSVFileList(reader, CSVRuns.class);
+			return csvRunsList.size();
+		} catch (CSVBuilderException exception) {
+			throw new IPLStatisticsException(exception.getMessage(), IPLStatisticsException.ExceptionType.UNABLE_TO_PARSE);
+		} catch (IOException exception) {
+			throw new IPLStatisticsException(exception.getMessage(), IPLStatisticsException.ExceptionType.INCORRECT_FILE);
+		}
+
 	}
 
-	public int loadDataOfWickets(String CSVFile) throws IOException, CSVBuilderException {
-		Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
-		ICSVBuilder<CSVWickets> csvBuilder = CSVBuilderFactory.createCSVBuilder();
-		csvWktsList = csvBuilder.getCSVFileList(reader, CSVWickets.class);
-		return csvWktsList.size();
-	}
+	public int loadDataOfWickets(String CSVFile) throws IPLStatisticsException {
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
+			ICSVBuilder<CSVWickets> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			csvWktsList = csvBuilder.getCSVFileList(reader, CSVWickets.class);
+			return csvWktsList.size();
+		} catch (CSVBuilderException exception) {
+			throw new IPLStatisticsException(exception.getMessage(), IPLStatisticsException.ExceptionType.UNABLE_TO_PARSE);
+		} catch (IOException exception) {
+			throw new IPLStatisticsException(exception.getMessage(), IPLStatisticsException.ExceptionType.INCORRECT_FILE);
+		}
+	}	
 
 	/**
 	 * Usecase1 : sorting data based on batting average
@@ -190,7 +205,28 @@ public class IPLAnalyser {
 		String jsonSortedPlayers = new Gson().toJson(csvWktsList);
 		return jsonSortedPlayers;
 	}
-
+	
+	/**
+	 * Usecase13 : Adding names of Players with Best Batting and bowling average to the list
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> getSortedOnBestBattingAndBowlingAverage() {
+		List<CSVRuns> battingList = (ArrayList<CSVRuns>) new Gson().fromJson(this.getAverageWiseSortedData(),
+				                                         new TypeToken<ArrayList<CSVRuns>>() {}.getType());
+		List<CSVWickets> bowlingList = (ArrayList<CSVWickets>) new Gson().fromJson(this.getSortedOnBowlingAvg(),
+				                                               new TypeToken<ArrayList<CSVWickets>>() {}.getType());
+		List<String> bestavg = new ArrayList<>();
+		for (CSVRuns bat : battingList) {
+			for (CSVWickets bowl : bowlingList) {
+				if (bat.playerName.equals(bowl.playerName)) {
+					bestavg.add(bat.playerName);
+				}
+			}
+		}
+		return bestavg;
+	}
 	
 	private void sortForBowling(List<CSVWickets> csvList, Comparator<CSVWickets> iplCSVComparator) {
 		for (int i = 0; i < csvList.size(); i++) {
