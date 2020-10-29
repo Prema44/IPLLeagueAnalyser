@@ -161,4 +161,11 @@ public class IPLAnlayserTest {
 		assertEquals("David Warner ", sortedCSVData.get(0).playerName);
 		assertEquals("Jonny Bairstow", sortedCSVData.get(1).playerName);
 	}
+	
+	@Test
+	public void givenWktsData_WhenSortedOn100sAnd50sAndBestBattingAvg() throws IOException, CSVBuilderException, IPLStatisticsException {
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		List<CSVRuns> sortedCSVData = iPLAnalyser.getSortedOnZeroCenturiesAndBestBattingAvg();
+		assertEquals("Marcus Stoinis", sortedCSVData.get(0).playerName);
+	}
 }

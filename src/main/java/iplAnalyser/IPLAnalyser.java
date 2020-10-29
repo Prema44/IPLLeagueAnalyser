@@ -255,6 +255,18 @@ public class IPLAnalyser {
 		return csvRunsList;
 	}
 	
+	/**
+	 * Usecase16 : Player with zero 100s but with best average
+	 * 
+	 * @return
+	 */
+	public List<CSVRuns> getSortedOnZeroCenturiesAndBestBattingAvg() {
+		csvRunsList.removeIf(entry -> (entry.noOfHundreds + entry.noOfFifties) != 0);
+		Comparator<CSVRuns> iplCSVComparator = Comparator.comparing(entry -> entry.avg);
+		this.sort(csvRunsList, iplCSVComparator);
+		return csvRunsList;
+	}
+	
 	private void sortForBowling(List<CSVWickets> csvList, Comparator<CSVWickets> iplCSVComparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {
