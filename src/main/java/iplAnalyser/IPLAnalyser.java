@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import census.CSVBuilderException;
@@ -217,15 +216,30 @@ public class IPLAnalyser {
 				                                         new TypeToken<ArrayList<CSVRuns>>() {}.getType());
 		List<CSVWickets> bowlingList = (ArrayList<CSVWickets>) new Gson().fromJson(this.getSortedOnBowlingAvg(),
 				                                               new TypeToken<ArrayList<CSVWickets>>() {}.getType());
-		List<String> bestavg = new ArrayList<>();
-		for (CSVRuns bat : battingList) {
-			for (CSVWickets bowl : bowlingList) {
+		return this.forAllRounder(battingList, bowlingList);
+	}
+	
+	public List<String> getSortedformaxRunsAndWickets(){
+		@SuppressWarnings("unchecked")
+		List<CSVRuns> maxRunsList = (ArrayList<CSVRuns>) new Gson().fromJson(this.getAverageWiseSortedData(),
+                                                         new TypeToken<ArrayList<CSVRuns>>() {}.getType());
+        @SuppressWarnings("unchecked")
+		List<CSVWickets> maxWktsList = (ArrayList<CSVWickets>) new Gson().fromJson(this.getSortedOnBowlingAvg(),
+                                                               new TypeToken<ArrayList<CSVWickets>>() {}.getType());
+        return this.forAllRounder(maxRunsList, maxWktsList); 
+	}
+	
+	
+	private List<String> forAllRounder(List<CSVRuns> runsList, List<CSVWickets> wicketsList) {
+		List<String> playerList = new ArrayList<>();
+		for (CSVRuns bat : runsList) {
+			for (CSVWickets bowl : wicketsList) {
 				if (bat.playerName.equals(bowl.playerName)) {
-					bestavg.add(bat.playerName);
+					playerList.add(bat.playerName);
 				}
 			}
 		}
-		return bestavg;
+		return playerList;
 	}
 	
 	private void sortForBowling(List<CSVWickets> csvList, Comparator<CSVWickets> iplCSVComparator) {

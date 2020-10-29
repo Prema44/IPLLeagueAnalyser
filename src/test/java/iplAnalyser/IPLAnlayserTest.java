@@ -144,4 +144,14 @@ public class IPLAnlayserTest {
 		assertEquals("Andre Russell", sortedCSVData.get(0));
 		assertEquals("Marcus Stoinis", sortedCSVData.get(1));
 	}	
+	
+	@Test
+	public void givenWktsData_WhenSortedOnMaxRunsAndWkts_ShouldReturnTrue()
+			throws IOException, CSVBuilderException, IPLStatisticsException {
+		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
+		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
+		List<String> sortedCSVData = iPLAnalyser.getSortedformaxRunsAndWickets();
+		assertEquals("Andre Russell", sortedCSVData.get(0));
+	}
+
 }
