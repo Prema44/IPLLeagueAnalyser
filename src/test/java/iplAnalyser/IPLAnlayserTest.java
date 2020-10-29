@@ -47,7 +47,7 @@ public class IPLAnlayserTest {
 		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
 		String sortedCSVData = iPLAnalyser.getAverageWiseSortedData();
 		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
-		assertEquals(83.2, iplCSV[0].avg, 0.0);
+		assertEquals("MS Dhoni", iplCSV[0].playerName);
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ public class IPLAnlayserTest {
 		iPLAnalyser.loadDataOfRuns(MOST_RUNS);
 		String sortedCSVData = iPLAnalyser.getSRWiseSortedData();
 		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
-		assertEquals(333.33f, iplCSV[0].strikeRate, 0.0);
+		assertEquals("Ishant Sharma", iplCSV[0].playerName);
 	}
 	
 	@Test
@@ -90,7 +90,7 @@ public class IPLAnlayserTest {
 	}
 	
 	@Test
-	public void givenBowlingStatistics_WhenSortedOnBowlingAvg_ShouldReturnTrue() throws IOException, CSVBuilderException {
+	public void givenBowlingStatistics_WhenSortedOnBowlingAvg_ShouldReturnBest() throws IOException, CSVBuilderException {
 		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
 		String sortedCSVData = iPLAnalyser.getSortedOnBowlingAvg();
 		CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
@@ -102,7 +102,7 @@ public class IPLAnlayserTest {
 		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
 		String sortedCSVData = iPLAnalyser.getSortedOnBowlingStrikeRate();
 		CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
-		assertEquals("Alzarri Joseph", iplCSV[0].playerName);
+		assertEquals("Alzarri Joseph", iplCSV[0].playerName);	
 	}
 	
 	@Test
@@ -111,5 +111,12 @@ public class IPLAnlayserTest {
 		String sortedCSVData = iPLAnalyser.getSortedOnBowlingEconomy();
 		CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
 		assertEquals("Shivam Dube", iplCSV[0].playerName);
+	}
+	
+	@Test
+	public void givenBowlingStatistics_WhenSortedOnStrikeRateAnd4wOR5w_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		iPLAnalyser.loadDataOfWickets(MOST_WKTS);
+		String[] sortedCSVData = iPLAnalyser.getSortedOnStrikeRateAnd4wOr5w();
+		assertEquals("Alzarri Joseph", sortedCSVData[0]);
 	}
 }

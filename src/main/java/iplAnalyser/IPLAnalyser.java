@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.google.gson.Gson;
 import census.CSVBuilderException;
 import census.CSVBuilderFactory;
@@ -140,6 +143,28 @@ public class IPLAnalyser {
 		this.sort(csvWktsList, iplCSVComparator.reversed());
 		String sorted = new Gson().toJson(csvWktsList);
 		return sorted;
+	}
+	
+	/**
+	 * Usecase9 :Sorting by Bowling StrikeRate by Hauls
+	 * 
+	 * @return
+	 */
+	
+	public String[] getSortedOnStrikeRateAnd4wOr5w() {
+		double tempSR = 0;
+		TreeMap<Double, String> csvMap = new TreeMap<>();
+		for(int i = 0; i < csvWktsList.size(); i++ ) {
+			int temp = csvWktsList.get(i).fourWkts * 4 + csvWktsList.get(i).fiveWkts * 5;
+			if(temp > 0) {
+				tempSR = ((Math.ceil(csvWktsList.get(i).over)*6 + ((csvWktsList.get(i).over*10)%10)))/temp;
+				csvMap.put(tempSR, csvWktsList.get(i).playerName);
+			}
+		}
+		for(Map.Entry<Double, String> entry : csvMap.entrySet()) {
+			System.out.println(entry.getKey()+" "+ entry.getValue());
+		}
+		return csvMap.values().toArray(new String[0]);
 	}
 	
 	private void sortForBowling(List<CSVWickets> csvList, Comparator<CSVWickets> iplCSVComparator) {
